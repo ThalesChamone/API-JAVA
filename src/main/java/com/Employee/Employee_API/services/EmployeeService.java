@@ -7,12 +7,12 @@ import com.Employee.Employee_API.exceptions.EmployeeNotFoundException;
 import com.Employee.Employee_API.repositories.EmployeeRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {
@@ -29,7 +29,7 @@ public class EmployeeService {
         List<Employee> employees = employeeRepository.findAll();
         return employees.stream()
                 .map(employee -> modelMapper.map(employee, EmployeeResponseDTO.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public EmployeeResponseDTO create(EmployeeDTO employeeDTO){
@@ -41,5 +41,19 @@ public class EmployeeService {
     public Optional<EmployeeResponseDTO> getById(UUID uuid){
         return this.employeeRepository.findById(uuid)
                 .map(employee -> modelMapper.map(employee, EmployeeResponseDTO.class));
+    }
+
+    public EmployeeResponseDTO updateEmployee(UUID uuid, EmployeeDTO employeeDTO){
+        Employee employee = employeeRepository.findById(uuid)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found"));
+        modelMapper.map(employeeDTO, employee);
+        employee = employeeRepository.save(employee);
+        return modelMapper.map(employee, EmployeeResponseDTO.class);
+    }
+
+    public void delete(UUID uuid){
+        Employee employeeResponseDTO = this.employeeRepository.findById(uuid)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found"));
+        this.employeeRepository.delete(employeeResponseDTO);
     }
 }

@@ -39,4 +39,17 @@ public class EmployeeController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @PutMapping("{uuid}")
+    public ResponseEntity<EmployeeResponseDTO> updateEmployee(@PathVariable UUID uuid ,
+                                                              @Valid @RequestBody EmployeeDTO employeeDTO){
+        EmployeeResponseDTO newEmployeeResponseDTO = employeeService.updateEmployee(uuid,employeeDTO);
+        return ResponseEntity.ok(newEmployeeResponseDTO);
+    }
+
+    @DeleteMapping("{uuid}")
+    public ResponseEntity<EmployeeResponseDTO> delete(@PathVariable UUID uuid){
+        this.employeeService.delete(uuid);
+        return ResponseEntity.noContent().build();
+    }
 }
