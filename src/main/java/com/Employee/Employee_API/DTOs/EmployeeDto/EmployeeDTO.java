@@ -1,4 +1,4 @@
-package com.Employee.Employee_API.DTOs;
+package com.Employee.Employee_API.DTOs.EmployeeDto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -7,12 +7,15 @@ import jakarta.validation.constraints.NotNull;
 public class EmployeeDTO {
     @NotBlank(message = "Employee name is required")
     private String name;
+
     @Email(message = "Not a valid email")
     @NotBlank(message = "Employee email is required")
+    @NotNull(message = "Email is required")
     private String email;
+
     @NotBlank(message = "Employee job is required")
     private String job;
-    @NotBlank
+
     @NotNull
     private Float salary;
 
@@ -40,11 +43,11 @@ public class EmployeeDTO {
         this.job = job;
     }
 
-    public @NotBlank @NotNull Float getSalary() {
+    public @NotNull Float getSalary() {
         return salary;
     }
 
-    public void setSalary(@NotBlank @NotNull Float salary) {
+    public void setSalary(@NotNull Float salary) {
         this.salary = salary;
     }
 }

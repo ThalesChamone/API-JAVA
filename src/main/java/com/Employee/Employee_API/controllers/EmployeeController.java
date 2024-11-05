@@ -1,13 +1,15 @@
 package com.Employee.Employee_API.controllers;
 
-import com.Employee.Employee_API.DTOs.EmployeeDTO;
-import com.Employee.Employee_API.entities.Employee;
+import com.Employee.Employee_API.DTOs.EmployeeDto.EmployeeDTO;
+import com.Employee.Employee_API.DTOs.EmployeeDto.EmployeeResponseDTO;
 import com.Employee.Employee_API.services.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/employees")
@@ -20,14 +22,21 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<EmployeeDTO>> findAll(){
-        List<EmployeeDTO> employees = employeeService.findAll();
+    public ResponseEntity<List<EmployeeResponseDTO>> findAll(){
+        List<EmployeeResponseDTO> employees = employeeService.findAll();
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<EmployeeDTO> insertEmployee(@RequestBody EmployeeDTO employeeDTO){
-        EmployeeDTO newEmployeeDto = employeeService.create(employeeDTO);
-        return ResponseEntity.ok(newEmployeeDto);
+    public ResponseEntity<EmployeeResponseDTO> insertEmployee(@Valid @RequestBody EmployeeDTO employeeDTO){
+        EmployeeResponseDTO newEmployeeResponseDto = employeeService.create(employeeDTO);
+        return ResponseEntity.ok(newEmployeeResponseDto);
+    }
+
+    @GetMapping("{uuid}")
+    public ResponseEntity<EmployeeResponseDTO> getById(@PathVariable UUID uuid){
+        return employeeService.getById(uuid)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }

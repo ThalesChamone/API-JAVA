@@ -1,4 +1,4 @@
-package com.Employee.Employee_API.DTOs;
+package com.Employee.Employee_API.DTOs.EmployeeDto;
 
 import java.util.UUID;
 
