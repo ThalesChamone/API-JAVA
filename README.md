@@ -11,6 +11,7 @@ Swagger: For API documentation and interactive testing of endpoints.
 Maven: Dependency management and project build automation.
 Features
 Employee management (CRUD operations)
+Role-based endpoint access control
 Swagger integration for API documentation
 Getting Started
 Prerequisites
@@ -18,12 +19,10 @@ Java 17 or higher
 MySQL (configure the database connection in application.properties)
 Maven
 
+
 The API will be accessible at http://localhost:8080.
 
-API Documentation
-Swagger documentation is available at:
 
-http://localhost:8080/swagger-ui.html
 API Endpoints
 Employee CRUD:
 
